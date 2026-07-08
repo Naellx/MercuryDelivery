@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
-import { sessions } from "./session.js";
+import { redis } from "../lib/redis";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({
       success: false,
@@ -12,14 +12,24 @@ export default function handler(req, res) {
 
   const { session_token } = req.body || {};
 
-  if (!session_token || !sessions.has(session_token)) {
-    return res.status(403).json({
+  if (!session_token) {
+    return res.status(400).json({
       success: false,
-      message: "Invalid session"
+      message: "Missing session token"
     });
   }
 
-  sessions.delete(session_token);
+  const exists = await redis.get(`session:${session_token}`);
+
+  if (!exists) {
+    return res.status(403).json({
+      success: false,
+      message: "Invalid or expired session"
+    });
+  }
+
+  // Hapus token agar hanya bisa dipakai sekali
+  await redis.del(`session:${session_token}`);
 
   const filePath = path.join(process.cwd(), "scripts", "Main.lua");
   const payload = fs.readFileSync(filePath, "utf8");
