@@ -1,6 +1,6 @@
-const sessions = new Map();
+import { redis } from "../lib/redis";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({
       success: false,
@@ -10,14 +10,13 @@ export default function handler(req, res) {
 
   const token = crypto.randomUUID();
 
-  sessions.set(token, {
-    createdAt: Date.now()
+  await redis.set(`session:${token}`, "valid", {
+    ex: 30
   });
 
   return res.status(200).json({
     success: true,
-    session_token: token
+    session_token: token,
+    expires_in: 30
   });
 }
-
-export { sessions };
