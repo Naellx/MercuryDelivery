@@ -1,1 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Access Denied</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a1410;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #e2e8f0;
+    overflow: hidden;
+  }
+  .card {
+    position: relative;
+    text-align: center;
+    padding: 48px 40px;
+    background: #10231a;
+    border: 1px solid #1e3d2b;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(34,197,94,0.08);
+    max-width: 420px;
+    overflow: hidden;
+    animation: cardIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: scale(0.85) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(180deg, rgba(34,197,94,0.10), transparent);
+    animation: scan 3s linear infinite;
+  }
+  @keyframes scan {
+    0% { top: -40%; }
+    100% { top: 100%; }
+  }
+  .logo {
+    margin-bottom: 16px;
+    display: inline-flex;
+    animation: floaty 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 12px rgba(34,197,94,0.5));
+  }
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  h1 {
+    font-size: 28px;
+    color: #4ade80;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+    position: relative;
+    animation: glitch 5s infinite;
+  }
+  @keyframes glitch {
+    0%, 95%, 100% { text-shadow: none; transform: translate(0); }
+    96% { text-shadow: -2px 0 #22c55e, 2px 0 #86efac; transform: translate(-1px, 0); }
+    97% { text-shadow: 2px 0 #22c55e, -2px 0 #86efac; transform: translate(1px, 0); }
+    98% { text-shadow: none; transform: translate(0); }
+  }
+  p {
+    font-size: 15px;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .code {
+    display: inline-block;
+    font-size: 12px;
+    color: #4ade80;
+    border: 1px solid #1e3d2b;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  a.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #22c55e;
+    color: #052e16;
+    text-decoration: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  a.btn:hover {
+    background: #4ade80;
+    transform: translateY(-2px);
+  }
+  a.btn.discord {
+    background: #1e293b;
+    color: #4ade80;
+    border: 1px solid #22c55e;
+  }
+  a.btn.discord:hover {
+    background: #1e3d2b;
+  }
+  .music-toggle {
+    margin-top: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #64748b;
+    cursor: pointer;
+    background: none;
+    border: 1px solid #1e3d2b;
+    padding: 6px 14px;
+    border-radius: 20px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .music-toggle:hover {
+    color: #4ade80;
+    border-color: #22c55e;
+  }
+  .bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+  }
+  .bars span {
+    width: 2px;
+    background: #4ade80;
+    animation: bar 1s infinite ease-in-out;
+  }
+  .bars span:nth-child(1) { height: 40%; animation-delay: 0s; }
+  .bars span:nth-child(2) { height: 100%; animation-delay: 0.2s; }
+  .bars span:nth-child(3) { height: 60%; animation-delay: 0.4s; }
+  .paused .bars span { animation-play-state: paused; }
+  @keyframes bar {
+    0%, 100% { transform: scaleY(0.3); }
+    50% { transform: scaleY(1); }
+  }
+  .protect-badge {
+    margin-top: 16px;
+    font-size: 12px;
+    color: #64748b;
+    letter-spacing: 0.5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .protect-badge .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 8px #22c55e;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" stroke="#4ade80" stroke-width="1.5" fill="rgba(34,197,94,0.12)"/>
+        <path d="M9 12l2 2 4-4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h1>Access Denied</h1>
+    <div class="code">ERROR 403</div>
+    <p>You don't have permission to access this page. If you think this is a mistake, please contact the administrator.</p>
+    <div class="btn-row">
+      <a href="/" class="btn">Back to Home</a>
+      <a href="https://discord.gg/your-invite" target="_blank" class="btn discord">Join Discord</a>
+    </div>
+    <div class="protect-badge"><span class="dot"></span>Script protect by luraph script made by naellx and you come here for deobfuscator and l you fucker</div>
+  </div>
 
+</body>
+          </html>
